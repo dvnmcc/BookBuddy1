@@ -1,10 +1,8 @@
-// Replace 'YOUR_API_BASE_URL' with the actual base URL of the BookBuddy API
 const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com";
 
-// Helper function to handle JSON response
 const handleResponse = async (response) => {
   if (!response.ok) {
-    const errorData = await response.json(); // Attempt to parse the error response
+    const errorData = await response.json();
     throw new Error(
       `HTTP error! Status: ${response.status}. ${errorData.message || ""}`
     );
@@ -12,7 +10,6 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-// Function to register a new user
 const registerUser = async (userData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -30,7 +27,6 @@ const registerUser = async (userData) => {
   }
 };
 
-// Function to login a user
 const loginUser = async (loginData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/login`, {
@@ -48,23 +44,18 @@ const loginUser = async (loginData) => {
   }
 };
 
-// ... (Other functions remain unchanged)
-
-// Example usage
 const userData = {
-  firstname: "John",
-  lastname: "Doe",
-  email: "john.doe@example.com",
-  password: "securepassword",
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
 };
 
 const loginData = {
-  email: "john.doe@example.com",
-  password: "securepassword",
+  email: "",
+  password: "",
 };
 
-// Register a new user
 registerUser(userData);
 
-// Login the user
 loginUser(loginData);
