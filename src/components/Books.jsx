@@ -13,15 +13,11 @@ const Books = () => {
         const response = await fetch(`${API_BASE_URL}/api/books`);
         const result = await response.json();
 
-        // Log the entire result to check its structure
         console.log("API Response:", result);
 
-        // Check if 'result' has a 'books' property that is an array
         if (result && Array.isArray(result.books)) {
-          // Log the books to see their structure
           console.log("Books:", result.books);
 
-          // Set the state with the fetched books
           setBooks(result.books);
         } else {
           setError("Invalid response format. Please try again.");
@@ -32,7 +28,7 @@ const Books = () => {
     };
 
     fetchBooks();
-  }, []); // Empty dependency array since we don't need to watch any specific state
+  }, []);
 
   return (
     <div>

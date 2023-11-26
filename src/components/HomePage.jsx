@@ -11,7 +11,6 @@ const HomePage = () => {
         <Link to="/books">
           <button>Explore Catalog</button>
         </Link>
-        {/* Add other links/buttons for different sections/pages */}
       </div>
     </div>
   );
