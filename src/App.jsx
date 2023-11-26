@@ -2,8 +2,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Books from "./components/Books";
 import HomePage from "./components/HomePage";
-// Create this component for displaying detailed book view
-
+import Login from "./components/Login";
+import Register from "./components/Register";
 const App = () => {
   return (
     <Router>
@@ -11,7 +11,8 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         {/* <Route path="/books/:bookId" component={SingleBook} /> */}
         <Route path="/books" element={<Books />} />
-        {/* Add other routes as needed */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );

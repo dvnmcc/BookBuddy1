@@ -11,6 +11,12 @@ const HomePage = () => {
         <Link to="/books">
           <button>Explore Catalog</button>
         </Link>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+        <Link to="/register">
+          <button>Register</button>
+        </Link>
       </div>
     </div>
   );

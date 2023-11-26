@@ -10,7 +10,7 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-const registerUser = async (userData) => {
+export const registerUser = async (userData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
       method: "POST",
@@ -27,7 +27,7 @@ const registerUser = async (userData) => {
   }
 };
 
-const loginUser = async (loginData) => {
+export const loginUser = async (loginData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/login`, {
       method: "POST",
@@ -56,6 +56,6 @@ const loginData = {
   password: "",
 };
 
-registerUser(userData);
+registerUser();
 
-loginUser(loginData);
+loginUser();
