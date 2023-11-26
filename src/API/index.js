@@ -10,7 +10,7 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-export const registerUser = async (userData) => {
+const registerUser = async (userData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
       method: "POST",
@@ -27,7 +27,7 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const loginUser = async (loginData) => {
+const loginUser = async (loginData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/login`, {
       method: "POST",
@@ -44,18 +44,21 @@ export const loginUser = async (loginData) => {
   }
 };
 
-const userData = {
-  firstname: "",
-  lastname: "",
-  email: "",
-  password: "",
+const getUserDetails = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/users/details`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const result = await handleResponse(response);
+    return result;
+  } catch (error) {
+    console.error("Error fetching user details:", error.message);
+    throw error;
+  }
 };
 
-const loginData = {
-  email: "",
-  password: "",
-};
-
-registerUser();
-
-loginUser();
+export { registerUser, loginUser, getUserDetails };
