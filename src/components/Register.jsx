@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { registerUser } from "../API/index.js";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleFirstnameChange = (e) => {
     setFirstname(e.target.value);
@@ -27,8 +29,21 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await registerUser({ firstname, lastname, email, password });
+      const result = await registerUser({
+        firstname,
+        lastname,
+        email,
+        password,
+      });
       console.log("Registration successful!");
+
+      // Log the token received
+      if (result.token) {
+        console.log("Token received:", result.token);
+      }
+
+      // Redirect to the account page upon successful registration
+      navigate("/account");
     } catch (error) {
       console.error("Registration failed:", error.message);
     }

@@ -21,9 +21,15 @@ const registerUser = async (userData) => {
     });
 
     const result = await handleResponse(response);
-    console.log(result);
+
+    // Check if the token is present in the result
+    if (!result.token) {
+      throw new Error("Token not received in registration response");
+    }
+
+    return result;
   } catch (error) {
-    console.error(error.message);
+    throw new Error(`Error registering user: ${error.message}`);
   }
 };
 
@@ -38,26 +44,28 @@ const loginUser = async (loginData) => {
     });
 
     const result = await handleResponse(response);
-    console.log(result);
+    console.log(result); // Log the result to inspect its structure
+    return result;
   } catch (error) {
     console.error(error.message);
+    throw error;
   }
 };
 
-const getUserDetails = async () => {
+const getUserDetails = async (token) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users/details`, {
-      method: "GET",
+    const response = await fetch(`${API_BASE_URL}/api/users/me`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the token in the request headers
       },
     });
 
-    const result = await handleResponse(response);
-    return result;
+    const result = await response.json();
+    console.log(result);
+    return result; // Assuming you want to return the user details
   } catch (error) {
-    console.error("Error fetching user details:", error.message);
-    throw error;
+    throw new Error(`Error fetching user details: ${error.message}`);
   }
 };
 

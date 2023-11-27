@@ -1,42 +1,52 @@
-/* TODO - add your code to create a functional React component that renders account details for a logged in user. Fetch the account data from the provided API. You may consider conditionally rendering a message for other users that prompts them to log in or create an account.  */
+import React, { useEffect, useState } from "react";
+import { getUserDetails } from "../API/index";
 
-import React, { useState, useEffect } from "react";
-import { getUserDetails } from "../API/index.js";
-
-const Account = () => {
+const Account = ({ isLoggedIn }) => {
   const [userDetails, setUserDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const userDetailsData = await getUserDetails();
+        // Assuming you have the user's token stored in localStorage
+        const token = localStorage.getItem("token");
 
-        setUserDetails(userDetailsData);
+        console.log("Fetching user details with token:", token);
+
+        if (token) {
+          const result = await getUserDetails(token);
+          console.log("User details fetched successfully:", result);
+          setUserDetails(result);
+        }
       } catch (error) {
         console.error("Error fetching user details:", error.message);
-        setLoading(false);
       }
     };
 
-    fetchUserDetails();
-  }, []);
+    if (isLoggedIn) {
+      fetchUserDetails();
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
-      <h2>Account Details</h2>
-      {loading && <p>Loading account details...</p>}
-      {!loading && userDetails ? (
-        <div>
-          <p>Welcome, {userDetails.firstname}!</p>
+      {isLoggedIn && userDetails ? (
+        <>
+          <h2>Welcome, {userDetails.firstname}!</h2>
           <p>Email: {userDetails.email}</p>
-          {/* Add more user details as needed */}
-        </div>
+
+          <h3>Books Checked Out:</h3>
+          {userDetails.books && userDetails.books.length > 0 ? (
+            <ul>
+              {userDetails.books.map((book) => (
+                <li key={book.id}>{book.title}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No books checked out.</p>
+          )}
+        </>
       ) : (
-        <p>
-          To view your account details, please{" "}
-          <strong>log in or create an account</strong>.
-        </p>
+        <p>Please log in to view your account.</p>
       )}
     </div>
   );

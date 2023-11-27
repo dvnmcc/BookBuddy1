@@ -1,11 +1,11 @@
-/* TODO - add your code to create a functional React component that renders a login form */
-
 import React, { useState } from "react";
-import { loginUser } from "../API/index.js";
+import { loginUser } from "../API/index";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,15 +20,19 @@ const Login = () => {
 
     try {
       const loginData = {
-        email: email,
-        password: password,
+        email,
+        password,
       };
 
-      const response = await loginUser(loginData);
+      const result = await loginUser(loginData);
 
-      console.log("Login successful:", response);
+      if (result.token) {
+        localStorage.setItem("token", result.token);
+        setLoggedIn(true);
+        navigate("/account");
+      }
     } catch (error) {
-      console.error("Login failed:", error.message);
+      console.error("Error during login:", error.message);
     }
   };
 
