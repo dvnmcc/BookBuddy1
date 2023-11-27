@@ -6,12 +6,12 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Account from "./components/Account";
 import Layout from "./components/Layout";
+import SingleBook from "./components/SingleBook";
 import { useEffect } from "react";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
-    // Check if a token exists in localStorage to determine if the user is logged in
     const token = localStorage.getItem("token");
     if (token) {
       setLoggedIn(true);
@@ -26,6 +26,7 @@ const App = () => {
           <Route path="/books" element={<Books />} />
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/books/:bookId" element={<SingleBook />} />
           <Route
             path="/account"
             element={<Account isLoggedIn={isLoggedIn} />}

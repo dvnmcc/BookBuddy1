@@ -1,31 +1,60 @@
+// Account.jsx
 import React, { useEffect, useState } from "react";
-import { getUserDetails } from "../API/index";
+import { getUserDetails, checkoutBook, returnReservation } from "../API/index";
 
 const Account = ({ isLoggedIn }) => {
   const [userDetails, setUserDetails] = useState(null);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        // Assuming you have the user's token stored in localStorage
-        const token = localStorage.getItem("token");
+  const fetchUserDetails = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-        console.log("Fetching user details with token:", token);
-
-        if (token) {
-          const result = await getUserDetails(token);
-          console.log("User details fetched successfully:", result);
-          setUserDetails(result);
-        }
-      } catch (error) {
-        console.error("Error fetching user details:", error.message);
+      if (token) {
+        const result = await getUserDetails(token);
+        setUserDetails(result);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user details:", error.message);
+    }
+  };
 
+  useEffect(() => {
     if (isLoggedIn) {
       fetchUserDetails();
     }
   }, [isLoggedIn]);
+
+  const handleCheckout = async (bookId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await checkoutBook(token, bookId);
+
+      fetchUserDetails();
+    } catch (error) {
+      console.error("Error during checkout:", error.message);
+    }
+  };
+
+  const handleReturn = async (bookId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const reservationId = userDetails.books.find(
+        (book) => book.id === bookId
+      )?.id;
+
+      if (reservationId) {
+        await returnReservation(token, reservationId);
+
+        fetchUserDetails();
+      } else {
+        console.error("Invalid reservationId");
+      }
+    } catch (error) {
+      console.error("Error during return:", error.message);
+    }
+  };
 
   return (
     <div>
@@ -38,7 +67,10 @@ const Account = ({ isLoggedIn }) => {
           {userDetails.books && userDetails.books.length > 0 ? (
             <ul>
               {userDetails.books.map((book) => (
-                <li key={book.id}>{book.title}</li>
+                <li key={book.id}>
+                  {book.title}
+                  <button onClick={() => handleReturn(book.id)}>Return</button>
+                </li>
               ))}
             </ul>
           ) : (

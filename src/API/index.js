@@ -22,7 +22,6 @@ const registerUser = async (userData) => {
 
     const result = await handleResponse(response);
 
-    // Check if the token is present in the result
     if (!result.token) {
       throw new Error("Token not received in registration response");
     }
@@ -44,7 +43,7 @@ const loginUser = async (loginData) => {
     });
 
     const result = await handleResponse(response);
-    console.log(result); // Log the result to inspect its structure
+    console.log(result);
     return result;
   } catch (error) {
     console.error(error.message);
@@ -57,15 +56,114 @@ const getUserDetails = async (token) => {
     const response = await fetch(`${API_BASE_URL}/api/users/me`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the request headers
+        Authorization: `Bearer ${token}`,
       },
     });
 
+    if (!response.ok) {
+      throw new Error(`Error fetching user details: ${response.statusText}`);
+    }
+
     const result = await response.json();
-    console.log(result);
-    return result; // Assuming you want to return the user details
+
+    const userDetails = {
+      ...result,
+      reservations: result.reservations || [],
+    };
+
+    return userDetails;
   } catch (error) {
     throw new Error(`Error fetching user details: ${error.message}`);
+  }
+};
+
+export const getReservations = async (token) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reservations/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching reservations: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+
+    const reservations = result.reservations || [];
+
+    return reservations;
+  } catch (error) {
+    throw new Error(`Error fetching reservations: ${error.message}`);
+  }
+};
+export const returnBook = async (token, bookId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/books/return/${bookId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to return the book: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error(`Error returning the book: ${error.message}`);
+  }
+};
+
+export const checkoutBook = async (token, bookId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/books/${bookId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        available: false, // Set the book as checked out
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to checkout book: ${response.statusText}`);
+    }
+
+    const userDetails = await getUserDetails(token);
+    return userDetails;
+  } catch (error) {
+    throw new Error(`Error during checkout: ${error.message}`);
+  }
+};
+export const returnReservation = async (token, reservationId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/reservations/${reservationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to return the book: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error(`Error returning the book: ${error.message}`);
   }
 };
 

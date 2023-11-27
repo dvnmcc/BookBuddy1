@@ -37,12 +37,10 @@ const Register = () => {
       });
       console.log("Registration successful!");
 
-      // Log the token received
       if (result.token) {
         console.log("Token received:", result.token);
       }
 
-      // Redirect to the account page upon successful registration
       navigate("/account");
     } catch (error) {
       console.error("Registration failed:", error.message);
