@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./homePage.css";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Welcome to BookBuddy Library</h1>
+    <div className="container">
+      <h1>Welcome to the BookBuddy Library</h1>
       <p>Discover and explore a wide range of books in our catalog.</p>
+      <p>Create an account and check out a book today!</p>
 
       <div>
         <Link to="/books">

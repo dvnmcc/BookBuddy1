@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { registerUser } from "../API/index.js";
 import { useNavigate } from "react-router-dom";
+import "./register.css";
 
 const Register = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleFirstnameChange = (e) => {
     setFirstname(e.target.value);
@@ -48,50 +49,56 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="register-container">
+      <h2 className="register-heading">Register</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <label className="register-label">
           First Name:
           <input
             type="text"
             value={firstname}
             onChange={handleFirstnameChange}
+            className="register-input"
             required
           />
         </label>
         <br />
-        <label>
+        <label className="register-label">
           Last Name:
           <input
             type="text"
             value={lastname}
             onChange={handleLastnameChange}
+            className="register-input"
             required
           />
         </label>
         <br />
-        <label>
+        <label className="register-label">
           Email:
           <input
             type="email"
             value={email}
             onChange={handleEmailChange}
+            className="register-input"
             required
           />
         </label>
         <br />
-        <label>
+        <label className="register-label">
           Password:
           <input
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            className="register-input"
             required
           />
         </label>
         <br />
-        <button type="submit">Register</button>
+        <button type="submit" className="register-button">
+          Register
+        </button>
       </form>
     </div>
   );

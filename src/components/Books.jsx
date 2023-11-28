@@ -1,7 +1,8 @@
-// Books.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { checkoutBook, returnBook } from "../API/index";
+import "./books.css";
+
 const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com";
 
 const Books = ({ isLoggedIn }) => {
@@ -60,31 +61,43 @@ const Books = ({ isLoggedIn }) => {
   };
 
   return (
-    <div>
+    <div className="books-container">
       <h2>Library's Catalog</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
+      {error && <p className="error-message">{error}</p>}
+      <ul className="books-list">
         {Array.isArray(books) &&
           books.map((book) => (
-            <li key={book.id}>
-              <Link to={`/books/${book.id}`}>
-                <h3>{book.title}</h3>
+            <li key={book.id} className="book-item">
+              <Link to={`/books/${book.id}`} className="book-link">
+                <img
+                  src={book.coverimage}
+                  alt={book.title}
+                  className="book-cover"
+                />
+                <div className="book-details">
+                  <h3 className="book-title">{book.title}</h3>
+                  <p className="book-author">{book.author}</p>
+                  <p className="book-description">{book.description}</p>
+                </div>
               </Link>
-              <p>{book.author}</p>
-              <p>{book.description}</p>
-              <img
-                src={book.coverimage}
-                alt={book.title}
-                style={{ maxWidth: "150px" }}
-              />
-              <p>Available: {book.available ? "Yes" : "No"}</p>
+              <p className="book-availability">
+                Available: {book.available ? "Yes" : "No"}
+              </p>
               {isLoggedIn && book.available && (
-                <button onClick={() => handleCheckout(book.id)}>
+                <button
+                  onClick={() => handleCheckout(book.id)}
+                  className="checkout-button"
+                >
                   Checkout
                 </button>
               )}
               {isLoggedIn && !book.available && (
-                <button onClick={() => handleReturn(book.id)}>Return</button>
+                <button
+                  onClick={() => handleReturn(book.id)}
+                  className="return-button"
+                >
+                  Return
+                </button>
               )}
             </li>
           ))}

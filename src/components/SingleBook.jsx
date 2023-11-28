@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { checkoutBook } from "../API/index";
+import "./singleBook.css";
 
 const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com";
 
@@ -66,27 +67,25 @@ const SingleBook = () => {
   };
 
   return (
-    <div>
-      <h2>Book Details</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {book && (
-        <>
-          <h3>{book.title}</h3>
-          <p>{book.author}</p>
-          <p>{book.description}</p>
-          <img
-            src={book.coverimage}
-            alt={book.title}
-            style={{ maxWidth: "150px" }}
-          />
-          {isBookCheckedOut ? (
-            <p>This book is checked out.</p>
-          ) : (
-            <button onClick={handleCheckout}>Checkout</button>
-          )}
-          <p>Available: {book.available ? "Yes" : "No"}</p>
-        </>
-      )}
+    <div className="single-book-container">
+      <div className="book-details-container">
+        <h2 className="book-title">{book && book.title}</h2>
+        <p className="book-author">{book && book.author}</p>
+        <p className="book-description">{book && book.description}</p>
+        <img
+          className="book-cover"
+          src={book && book.coverimage}
+          alt={book && book.title}
+        />
+        {isBookCheckedOut ? (
+          <p>This book is checked out.</p>
+        ) : (
+          <button className="checkout-button" onClick={handleCheckout}>
+            Checkout
+          </button>
+        )}
+        <p>Available: {book && (book.available ? "Yes" : "No")}</p>
+      </div>
     </div>
   );
 };

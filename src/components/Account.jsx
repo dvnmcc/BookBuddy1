@@ -1,6 +1,6 @@
-// Account.jsx
 import React, { useEffect, useState } from "react";
 import { getUserDetails, checkoutBook, returnReservation } from "../API/index";
+import "./account.css";
 
 const Account = ({ isLoggedIn }) => {
   const [userDetails, setUserDetails] = useState(null);
@@ -57,19 +57,24 @@ const Account = ({ isLoggedIn }) => {
   };
 
   return (
-    <div>
+    <div className="account-container">
       {isLoggedIn && userDetails ? (
         <>
-          <h2>Welcome, {userDetails.firstname}!</h2>
-          <p>Email: {userDetails.email}</p>
+          <h2 className="account-heading">Welcome, {userDetails.firstname}!</h2>
+          <p className="account-details">Email: {userDetails.email}</p>
 
-          <h3>Books Checked Out:</h3>
+          <h3 className="books-checked-out">Books Checked Out:</h3>
           {userDetails.books && userDetails.books.length > 0 ? (
-            <ul>
+            <ul className="books-list">
               {userDetails.books.map((book) => (
-                <li key={book.id}>
+                <li key={book.id} className="book-item">
                   {book.title}
-                  <button onClick={() => handleReturn(book.id)}>Return</button>
+                  <button
+                    className="return-button"
+                    onClick={() => handleReturn(book.id)}
+                  >
+                    Return
+                  </button>
                 </li>
               ))}
             </ul>

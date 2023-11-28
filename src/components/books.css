@@ -1,0 +1,56 @@
+.books-container {
+  text-align: center;
+}
+
+.books-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-item {
+  margin: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 300px;
+}
+
+.book-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.book-cover {
+  max-width: 100%;
+  height: auto;
+}
+
+.book-details {
+  margin-top: 10px;
+}
+
+.book-title {
+  margin-bottom: 5px;
+}
+
+.book-availability {
+  margin-top: 10px;
+}
+
+.checkout-button,
+.return-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.checkout-button:hover,
+.return-button:hover {
+  background-color: #45a049;
+}

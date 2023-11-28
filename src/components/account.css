@@ -1,0 +1,46 @@
+.account-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.account-details {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.books-checked-out {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.books-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.book-item {
+  margin-bottom: 10px;
+}
+
+.return-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.return-button:hover {
+  background-color: #c0392b;
+}
